@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>商品详情</title>
+    <!-- 引入 Vant 4 CSS -->
+    <link
+      rel="stylesheet"
+      href="./js/index.css" />
+
+    <style>
+      body {
+        background-color: #f7f8fa;
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          'Helvetica Neue',
+          Helvetica,
+          Segoe UI,
+          Arial,
+          Roboto,
+          'PingFang SC',
+          'miui',
+          'Hiragino Sans GB',
+          'Microsoft Yahei',
+          sans-serif;
+      }
+
+      /* 商品封面和信息区域 */
+      .product-header {
+        background: #fff;
+        margin-bottom: 10px;
+      }
+
+      .product-cover {
+        width: 100%;
+        height: 350px;
+        overflow: hidden;
+      }
+
+      .product-cover .van-swipe {
+        height: 350px;
+      }
+
+      .product-cover .van-swipe-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .product-info {
+        padding: 12px;
+      }
+
+      .product-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .product-code {
+        font-size: 12px;
+        color: #999;
+        margin-top: 4px;
+      }
+
+      .price-area {
+        display: flex;
+        align-items: baseline;
+        margin-top: 8px;
+      }
+
+      .price-symbol {
+        font-size: 14px;
+        color: #ee0a24;
+        font-weight: bold;
+      }
+
+      .price-value {
+        font-size: 22px;
+        color: #ee0a24;
+        font-weight: bold;
+        margin-left: 2px;
+      }
+
+      /* 参数区域通用样式 */
+      .section-block {
+        background-color: #ffffff;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+
+      .section-header {
+        padding: 15px 16px 10px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+        display: flex;
+        align-items: center;
+      }
+
+      .section-header::before {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 16px;
+        background-color: #1989fa;
+        margin-right: 8px;
+        border-radius: 2px;
+      }
+
+      /* 师傅详情弹窗样式 */
+      .master-detail {
+        text-align: left;
+      }
+
+      .master-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+      }
+
+      .master-info-row {
+        margin-bottom: 10px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .master-info-row .label {
+        color: #999;
+        margin-right: 5px;
+      }
+
+      .master-info-row .value {
+        color: #333;
+      }
+
+      /* 参数网格布局 */
+      /* 参数网格布局 */
+      .param-grid {
+        padding: 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .param-item {
+        width: 45%;
+        /* 保持两列布局 */
+        font-size: 13px;
+        padding: 8px 0;
+        /* 稍微增加一点上下间距，看起来更舒展 */
+        color: #666;
+        box-sizing: border-box;
+
+        /* ✅ 新增：实现两端对齐的核心代码 */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .param-label {
+        color: #999;
+        /* 如果希望标签固定宽度，可以取消下面这行的注释 */
+        /* min-width: 70px; */
+      }
+
+      .param-value {
+        color: #333;
+        text-align: right;
+        /* 确保文字靠右对齐 */
+        flex: 1;
+        /* 让数值占据剩余空间 */
+        margin-left: 10px;
+        /* 标签和数值之间留点空隙 */
+      }
+
+      /* 综合级别特殊样式 */
+      .grade-box {
+        margin: 10px 16px;
+        background: #f5f5f5;
+        /* 背景色加深 */
+        border: 1px dashed #ccc;
+        /* 边框颜色也稍微加深一点以匹配 */
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        /* 显示手型指针，提示可点击 */
+        transition: background-color 0.2s;
+        /* 添加过渡效果 */
+      }
+
+      .grade-box:active {
+        background: #e8e8e8;
+        /* 点击时的反馈色 */
+      }
+
+      .grade-title {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* 添加一个小图标提示用户可以点击查看 */
+      .grade-title::after {
+        content: '?';
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 16px;
+        height: 16px;
+        background-color: #1989fa;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: normal;
+      }
+
+      .grade-tags {
+        display: flex;
+        gap: 10px;
+      }
+
+      .grade-tag {
+        background: #e8f3ff;
+        color: #1989fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+
+      /* 泥 - 土黄色系 (代表泥土) */
+      .tag-clay {
+        background-color: #fff7e6;
+        color: #d48806;
+        border: 1px solid #ffe58f;
+      }
+
+      /* 坯 - 青灰色系 (代表素坯) */
+      .tag-body {
+        background-color: #f0f5ff;
+        color: #2f54eb;
+        border: 1px solid #adc6ff;
+      }
+
+      /* 釉 - 青绿色系 (代表温润釉面) */
+      .tag-glaze {
+        background-color: #e6fffb;
+        color: #00a854;
+        border: 1px solid #b7eb8f;
+      }
+
+      /* 绘画 - 紫红色系 (代表艺术/青花) */
+      .tag-paint {
+        background-color: #fff0f6;
+        color: #c41d7f;
+        border: 1px solid #ffadd2;
+      }
+
+      /* 级别解释弹窗专用样式 */
+      .grade-explain-container {
+        padding: 10px 0;
+      }
+
+      .grade-explain-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        padding: 12px;
+        background-color: #fafafa;
+        /* 浅灰背景区分每一行 */
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+
+      .grade-explain-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .grade-level-badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        margin-right: 12px;
+        flex-shrink: 0;
+        /* 防止徽章被压缩 */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* A级 - 绿色 (完美) */
+      .level-a {
+        background: linear-gradient(135deg, #52c41a, #73d13d);
+      }
+
+      /* B级 - 橙色 (良好/一般) */
+      .level-b {
+        background: linear-gradient(135deg, #faad14, #ffc53d);
+      }
+
+      /* C级 - 红色 (瑕疵) */
+      .level-c {
+        background: linear-gradient(135deg, #ff4d4f, #ff7875);
+      }
+
+      .grade-desc-group {
+        flex: 1;
+      }
+
+      .grade-desc-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        line-height: 32px;
+        /* margin-bottom: 4px; */
+      }
+
+      .grade-desc-detail {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      /* 烧窑单元格特殊背景 */
+      .kiln-cell-wrapper {
+        background-color: #fafafa;
+        /* 极浅的灰色，比白色稍深一点点 */
+        margin: 0 0px 10px 0px;
+        /* 左右留出边距，底部留出间距 */
+        border-radius: 8px;
+        /* 圆角，看起来更精致 */
+        overflow: hidden;
+        /* 确保 van-cell 的边框不溢出圆角 */
+      }
+
+      /* 可选：如果想让 van-cell 内部也去掉默认的边框或调整内边距以适配背景 */
+      .kiln-cell-wrapper .van-cell {
+        background-color: transparent;
+        /* 让 cell 透明，显示父级背景 */
+      }
+
+      /* 详情图区域 */
+      .detail-section {
+        background-color: #ffffff;
+        padding-bottom: 20px;
+      }
+
+      .detail-header {
+        text-align: center;
+        padding: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        background: #fff;
+      }
+
+      .detail-image {
+        width: 100%;
+        display: block;
+      }
+
+      /* 底部安全区 */
+      .bottom-safe-area {
+        height: 50px;
+      }
+
+      /* 让 van-cell 的内容更紧凑 */
+      .van-cell__title {
+        min-width: 56px;
+        font-size: 12px;
+      }
+
+      /* 确保箭头显示正确 */
+      .van-cell__value {
+        color: #333;
+        font-size: 12px;
+      }
+
+      /* 移除默认边框和背景 */
+      .van-cell {
+        border: none;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- 4. 用vant4的NavBar导航组件做头部 -->
+      <van-nav-bar
+        title="商品详情"
+        fixed
+        placeholder>
+        <!-- 头部的右边要用插槽自定义两个icon是小程序的三个点喝关闭 -->
+        <template #right>
+          <van-image
+            width="90"
+            height="30"
+            src="./img/icon.png" />
+        </template>
+      </van-nav-bar>
+
+      <!-- 1. 封面图、名称、价格、编号 -->
+      <div class="product-header">
+        <div class="product-cover">
+          <van-swipe indicator-color="white">
+            <van-swipe-item>
+              <img
+                src="./img/1.jpg"
+                alt="商品图片1" />
+            </van-swipe-item>
+            <van-swipe-item>
+              <img
+                src="./img/2.jpg"
+                alt="商品图片2" />
+            </van-swipe-item>
+            <van-swipe-item>
+              <img
+                src="./img/3.jpg"
+                alt="商品图片3" />
+            </van-swipe-item>
+            <van-swipe-item>
+              <img
+                src="./img/4.jpg"
+                alt="商品图片4" />
+            </van-swipe-item>
+          </van-swipe>
+        </div>
+        <div class="product-info">
+          <!-- 名称突出 -->
+          <div class="product-title">高足主人杯</div>
+          <!-- 编号 -->
+          <div class="product-code">编号：JSS-20260401-001</div>
+          <!-- 价格突出 -->
+          <div class="price-area">
+            <span class="price-symbol">¥</span>
+            <span class="price-value">2,888.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 参数 -->
+      <div class="section-block">
+        <div class="section-header">商品参数</div>
+        <div class="param-grid">
+          <div class="param-item"><span class="param-label">品牌：</span><span class="param-value">镜水生</span></div>
+          <div class="param-item"><span class="param-label">窑口：</span><span class="param-value">玥珵窑</span></div>
+          <div class="param-item"><span class="param-label">类型：</span><span class="param-value">青花-山水</span></div>
+          <div class="param-item"><span class="param-label">泥料：</span><span class="param-value">特级高岭土</span></div>
+          <div class="param-item"><span class="param-label">釉水：</span><span class="param-value">高白釉</span></div>
+          <div class="param-item"><span class="param-label">绘画：</span><span class="param-value">纯手绘</span></div>
+          <div class="param-item"><span class="param-label">烧制时间：</span><span class="param-value">2026年4月</span></div>
+          <div class="param-item"><span class="param-label">坯体工艺：</span><span class="param-value">纯手工</span></div>
+        </div>
+
+        <!-- 整体综合级别 -->
+        <div
+          class="grade-box"
+          @click="showGradeInfo = true">
+          <div class="grade-title">整体综合级别 (A)</div>
+          <div class="grade-tags">
+            <span class="grade-tag tag-clay">泥 (A)</span>
+            <span class="grade-tag tag-body">坯 (A)</span>
+            <span class="grade-tag tag-glaze">釉 (A)</span>
+            <span class="grade-tag tag-paint">绘画 (A)</span>
+          </div>
+        </div>
+        <!-- 级别含义解释弹窗 -->
+        <van-popup
+          v-model:show="showGradeInfo"
+          round
+          position="bottom"
+          style="padding: 20px; max-height: 60%">
+          <div class="master-detail">
+            <h3 class="master-name">级别判定标准</h3>
+
+            <div class="grade-explain-container">
+              <!-- A级 -->
+              <div class="grade-explain-item">
+                <span class="grade-level-badge level-a">A</span>
+                <div class="grade-desc-group">
+                  <div class="grade-desc-title">完全</div>
+                </div>
+              </div>
+
+              <!-- B级 -->
+              <div class="grade-explain-item">
+                <span class="grade-level-badge level-b">B</span>
+                <div class="grade-desc-group">
+                  <div class="grade-desc-title">无明显大瑕疵</div>
+                </div>
+              </div>
+
+              <!-- C级 -->
+              <div class="grade-explain-item">
+                <span class="grade-level-badge level-c">C</span>
+                <div class="grade-desc-group">
+                  <div class="grade-desc-title">细小瑕疵</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </van-popup>
+        <div style="display: flex; justify-content: space-between">
+          <div style="width: 48%">
+            <van-cell
+              title="拉坯师傅"
+              value="ZH"
+              is-link
+              icon="user-o"
+              @click="showMasterPopup = true"
+              style="flex: 1; border: none; background-color: transparent" />
+          </div>
+          <div style="width: 1px; height: 44px; background: #eee"></div>
+          <div style="width: 48%">
+            <van-cell
+              title="画工"
+              value="HZM"
+              is-link
+              icon="edit"
+              @click="showArtistPopup = true"
+              style="flex: 1; border: none; background-color: transparent" />
+          </div>
+        </div>
+      </div>
+      <!-- 拉坯师傅详情弹窗 (保持之前的定义不变) -->
+      <van-popup
+        v-model:show="showMasterPopup"
+        round
+        position="bottom"
+        style="height: 50%; padding: 20px">
+        <div class="master-detail">
+          <h3 class="master-name">ZH</h3>
+          <div class="master-info-row">
+            <span class="label">编号：</span>
+            <span class="value">MASTER-001</span>
+          </div>
+          <div class="master-info-row">
+            <span class="label">简介：</span>
+            <span class="value">资深拉坯师傅，拥有15年制瓷经验，擅长青花山水题材，手法细腻，坯体匀称。</span>
+          </div>
+        </div>
+      </van-popup>
+
+      <!-- 画工详情弹窗 (新增) -->
+      <van-popup
+        v-model:show="showArtistPopup"
+        round
+        position="bottom"
+        style="height: 50%; padding: 20px">
+        <div class="master-detail">
+          <h3 class="master-name">HZM</h3>
+          <div class="master-info-row">
+            <span class="label">编号：</span>
+            <span class="value">ARTIST-002</span>
+          </div>
+          <div class="master-info-row">
+            <span class="label">简介：</span>
+            <span class="value">高级画师，精通青花分水技法，笔触灵动，意境深远，作品多次获奖。</span>
+          </div>
+        </div>
+      </van-popup>
+      <!-- 3. 自有窑口参数 -->
+      <div class="section-block">
+        <div class="section-header">自有窑口参数</div>
+        <div class="kiln-cell-wrapper">
+          <!-- 画工信息单元格 (新增) -->
+          <van-cell
+            title="烧窑"
+            value="CYL"
+            is-link
+            icon="fire-o"
+            @click="showKilnMasterPopup = true" />
+        </div>
+        <!-- 烧窑师傅详情弹窗 -->
+        <van-popup
+          v-model:show="showKilnMasterPopup"
+          round
+          position="bottom"
+          style="height: 50%; padding: 20px">
+          <div class="master-detail">
+            <h3 class="master-name">CYL</h3>
+
+            <div class="master-info-row">
+              <span class="label">简介：</span>
+              <span class="value">资深把桩师傅，拥有20年柴窑烧制经验。精通火焰气氛转换，对还原焰控制极佳，善于通过火痕创造独特的自然落灰效果。</span>
+            </div>
+
+            <div class="master-info-row">
+              <span class="label">擅长釉色：</span>
+              <span class="value">青花、祭红、茶叶末</span>
+            </div>
+
+            <div class="master-info-row">
+              <span class="label">控温特点：</span>
+              <span class="value">升温曲线平稳，冷却节奏舒缓，成品玻化程度高，釉面温润如玉。</span>
+            </div>
+          </div>
+        </van-popup>
+        <div class="param-grid">
+          <div
+            class="param-item"
+            style="width: 100%">
+            <span class="param-label">批次：</span><span class="param-value">20260401</span>
+          </div>
+          <div class="param-item"><span class="param-label">入窑数量：</span><span class="param-value">200</span></div>
+          <div class="param-item"><span class="param-label">成品：</span><span class="param-value">167</span></div>
+          <div class="param-item"><span class="param-label">A级：</span><span class="param-value">130</span></div>
+          <div class="param-item"><span class="param-label">B级：</span><span class="param-value">20</span></div>
+          <div class="param-item"><span class="param-label">C级：</span><span class="param-value">17</span></div>
+          <div class="param-item"><span class="param-label">废弃：</span><span class="param-value">33</span></div>
+        </div>
+      </div>
+
+      <!-- 4. 参数：备注 -->
+      <div class="section-block">
+        <div class="section-header">备注</div>
+        <van-cell-group inset>
+          <van-cell
+            title="备注说明"
+            value="暂无特殊备注" />
+        </van-cell-group>
+      </div>
+
+      <!-- 5. 详情图 (一张一张竖着往下排列展示) -->
+      <div class="detail-section">
+        <div class="detail-header">— 宝贝详情 —</div>
+        <van-image
+          src="./img/detail/1.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/2.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/3.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/4.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/5.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/6.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/7.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/8.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/9.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/10.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/11.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/12.jpg"
+          width="100%"
+          class="detail-image" />
+        <van-image
+          src="./img/detail/13.jpg"
+          width="100%"
+          class="detail-image" />
+      </div>
+    </div>
+  </body>
+</html>
+<!-- 引入 Vue 3 -->
+<script src="./js/vue.js"></script>
+<!-- 引入 Vant 4 -->
+<script src="./js/vant.min.js"></script>
+<script>
+  const { createApp, ref } = Vue;
+  const app = createApp({
+    setup() {
+      //控制师傅详情弹窗的显示
+      const showMasterPopup = ref(false);
+      // 控制画工详情弹窗的显示
+      const showArtistPopup = ref(false);
+      // 控制级别说明弹窗的显示
+      const showGradeInfo = ref(false);
+      // 新增：烧窑师傅/信息
+      const showKilnMasterPopup = ref(false);
+
+      return {
+        showMasterPopup,
+        showArtistPopup,
+        showGradeInfo,
+        showKilnMasterPopup
+      };
+    }
+  });
+
+  // 【关键】必须使用 vant 插件
+  app.use(vant);
+
+  app.mount('#app');
+</script>

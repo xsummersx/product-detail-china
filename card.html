@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>产品认证证书</title>
+    <link
+      rel="stylesheet"
+      href="./js/index.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        background: linear-gradient(135deg, #e8f0f8 0%, #f5f7fa 100%);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2vw;
+      }
+
+      #app {
+        width: 100%;
+        height: 100vh;
+        max-width: 750px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .certificate-card {
+        background: #fdfdf9;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+
+        border-radius: 8px;
+        padding: 4vw 4vw 5vw 4vw;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* 水印层 */
+      .watermark-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .watermark-item {
+        position: absolute;
+        color: rgba(0, 0, 0, 0.04);
+        font-size: 14px;
+        font-weight: 500;
+        transform: rotate(-45deg);
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      /* 头部标题 */
+      .card-header {
+        text-align: center;
+        margin-bottom: 2vw;
+        position: relative;
+        z-index: 2;
+      }
+
+      .card-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d51b5;
+        margin-bottom: 0.5vw;
+      }
+
+      .card-subtitle {
+        font-size: 13px;
+        color: #2d51b5;
+      }
+
+      /* 产品编号 */
+      .product-code {
+        text-align: center;
+        font-size: 16px;
+        color: #c0c4cc;
+        margin-bottom: 2vw;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* 产品图片 */
+      .product-image-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2vw 0;
+        position: relative;
+        z-index: 2;
+        flex-shrink: 0;
+      }
+
+      .product-image-placeholder {
+        width: 60vw;
+        height: 60vw;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8f0f8 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c0c4cc;
+        font-size: 20px;
+        border: 2px dashed #e0e0e0;
+        overflow: hidden;
+      }
+
+      /* 参数信息 */
+      .parameters {
+        margin-top: 2vw;
+        margin-bottom: 4vw;
+        padding: 0 1vw;
+        position: relative;
+        z-index: 2;
+        flex-shrink: 0;
+      }
+
+      .param-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.5vw 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .param-item:last-child {
+        border-bottom: none;
+      }
+
+      .param-label {
+        font-size: 14px;
+        color: #999;
+      }
+
+      .param-value {
+        font-size: 14px;
+        color: #666;
+      }
+
+      /* 底部区域 */
+      .card-footer {
+        margin-top: auto;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-top: 2vw;
+      }
+
+      .qr-code-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 2vw;
+      }
+
+      .qr-code-placeholder {
+        width: 38vw;
+        height: 38vw;
+        background: #f5f7fa;
+        border: 2px dashed #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c0c4cc;
+        font-size: 14px;
+        overflow: hidden;
+      }
+
+      .footer-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1.5vw;
+        position: relative;
+      }
+
+      .brand-logo {
+        width: 30vw;
+        height: 14vw;
+        background: #f5f7fa;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c0c4cc;
+        font-size: 12px;
+      }
+
+      .company-name-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+
+      .company-name {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .seal-placeholder {
+        width: 25vw;
+        height: 25vw;
+        border: 2px solid #ee0a24;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ee0a24;
+        font-size: 11px;
+        transform: rotate(-5deg);
+        position: absolute;
+        top: -4vw;
+        left: 0vw;
+        z-index: 10;
+        opacity: 0.9;
+      }
+
+      /* 备注信息 */
+      .remarks {
+        margin-top: 2vw;
+        padding: 0 1vw;
+        position: relative;
+        z-index: 2;
+        flex-shrink: 0;
+      }
+
+      .remarks-title {
+        font-size: 18px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 1vw;
+      }
+
+      .remarks-content {
+        font-size: 13px;
+        color: #999;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="certificate-card">
+        <!-- 水印层 -->
+        <div class="watermark-layer">
+          <div
+            class="watermark-item"
+            style="top: 5%; left: -5%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 5%; left: 25%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 5%; left: 55%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 5%; left: 85%">
+            镜水生监
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 15%; left: -5%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 15%; left: 25%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 15%; left: 55%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 15%; left: 85%">
+            镜水生制
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 25%; left: -5%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 25%; left: 25%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 25%; left: 55%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 25%; left: 85%">
+            镜水生监
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 35%; left: -5%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 35%; left: 25%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 35%; left: 55%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 35%; left: 85%">
+            镜水生制
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 45%; left: -5%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 45%; left: 25%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 45%; left: 55%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 45%; left: 85%">
+            镜水生监
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 55%; left: -5%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 55%; left: 25%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 55%; left: 55%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 55%; left: 85%">
+            镜水生制
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 65%; left: -5%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 65%; left: 25%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 65%; left: 55%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 65%; left: 85%">
+            镜水生监
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 75%; left: -5%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 75%; left: 25%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 75%; left: 55%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 75%; left: 85%">
+            镜水生制
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 85%; left: -5%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 85%; left: 25%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 85%; left: 55%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 85%; left: 85%">
+            镜水生监
+          </div>
+
+          <div
+            class="watermark-item"
+            style="top: 95%; left: -5%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 95%; left: 25%">
+            镜水生制
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 95%; left: 55%">
+            镜水生监
+          </div>
+          <div
+            class="watermark-item"
+            style="top: 95%; left: 85%">
+            镜水生制
+          </div>
+        </div>
+
+        <!-- 头部 -->
+        <div class="card-header">
+          <div class="card-title">高足主人杯</div>
+          <div class="card-subtitle">High-footed Master Cup</div>
+        </div>
+
+        <!-- 产品图片 -->
+        <div class="product-image-wrapper">
+          <div class="product-image-placeholder">
+            <img
+              style="object-fit: cover; width: 100%; height: 100%"
+              src="./img/card.jpg" />
+          </div>
+        </div>
+
+        <!-- 产品编号 -->
+        <div class="product-code">编号：MYS-2026-001</div>
+
+        <!-- 参数信息 -->
+        <div class="parameters">
+          <div class="param-item">
+            <div class="param-label">品牌</div>
+            <div class="param-value">镜水生</div>
+          </div>
+          <div class="param-item">
+            <div class="param-label">窑口</div>
+            <div class="param-value">玥埕窑</div>
+          </div>
+          <div class="param-item">
+            <div class="param-label">级别</div>
+            <div class="param-value">A</div>
+          </div>
+          <div class="param-item">
+            <div class="param-label">绘画</div>
+            <div class="param-value">纯手绘</div>
+          </div>
+          <div class="param-item">
+            <div class="param-label">坯体</div>
+            <div class="param-value">纯手工</div>
+          </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="card-footer">
+          <div class="qr-code-wrapper">
+            <div class="qr-code-placeholder">
+              <img
+                style="width: 100%; height: 100%"
+                src="./img/ewm.png" />
+            </div>
+          </div>
+
+          <div class="footer-right">
+            <div class="brand-logo">
+              <img
+                style="width: 100%"
+                src="./img/logo.png" />
+            </div>
+            <div class="company-name-wrapper">
+              <div class="company-name">镜水生艺术有限公司</div>
+              <div class="seal-placeholder">公章占位</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 引入 Vue 3 -->
+    <script src="./js/vue.js"></script>
+    <!-- 引入 Vant 4 -->
+    <script src="./js/vant.min.js"></script>
+    <script>
+      const { createApp } = Vue;
+
+      const app = createApp({
+        setup() {
+          return {};
+        }
+      });
+
+      app.use(vant);
+      app.mount('#app');
+    </script>
+  </body>
+</html>
