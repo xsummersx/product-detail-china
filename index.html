@@ -233,24 +233,22 @@
     .param-row-first {
       display: flex;
       justify-content: center;
-      gap: 16px;
       border-radius: 8px;
-      margin: 0 12px;
+      width: 100%;
     }
 
     .param-row-second {
       display: flex;
       justify-content: center;
-      gap: 16px;
       border-radius: 8px;
-      margin: 0 12px;
+      width: 100%;
     }
 
 
     /* 参数项样式 */
     .param-card-item {
       text-align: center;
-      width: 100px;
+      width: 28%;
       padding: 8px;
       border-radius: 4px;
       transition: all 0.2s;
@@ -296,11 +294,10 @@
 
     .cell-row-first {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 16px;
       border-radius: 8px;
-      margin: 0 12px;
+      width: 100%;
     }
 
     /* 参数项样式 */
@@ -811,15 +808,8 @@
 
       <!-- 第二组：泥料、釉、拉坯、画工、混水（保持原有风格） -->
       <div class="param-grid">
-        <div class="param-item"><span class="param-label">类型：</span><span class="param-value">青花-山水</span></div>
-        <div class="param-item"><span class="param-label">泥料：</span><span class="param-value">特级高岭土</span></div>
-        <div class="param-item"><span class="param-label">釉水：</span><span class="param-value">高白釉</span></div>
-        <div class="param-item"><span class="param-label">烧制时间：</span><span class="param-value">2025-02-23</span></div>
-        <div class="param-item"><span class="param-label">批次：</span><span class="param-value">20260401</span></div>
-        <div class="param-item"><span class="param-label">备注：</span><span class="param-value">无</span></div>
-
         <div class="param-item"
-          style="width: 100%;padding:0;margin-top:10px; border-top: 1px solid #e0e0e0;border-bottom: 1px solid #e0e0e0"
+          style="width: 100%;padding:0;margin:10px 0 20px 0; border-top: 1px solid #e0e0e0;border-bottom: 1px solid #e0e0e0"
           @click="showMasterPopup = true">
           <van-cell is-link style="padding:2px;display: flex; align-items: center;">
             <!-- 使用 title 插槽来自定义标题 -->
@@ -850,6 +840,14 @@
             </template>
           </van-cell>
         </div>
+        <div class="param-item"><span class="param-label">类型：</span><span class="param-value">青花-山水</span></div>
+        <div class="param-item"><span class="param-label">泥料：</span><span class="param-value">特级高岭土</span></div>
+        <div class="param-item"><span class="param-label">釉水：</span><span class="param-value">高白釉</span></div>
+        <div class="param-item"><span class="param-label">烧制时间：</span><span class="param-value">2025-02-23</span></div>
+        <div class="param-item"><span class="param-label">批次：</span><span class="param-value">20260401</span></div>
+        <div class="param-item"><span class="param-label">备注：</span><span class="param-value">无</span></div>
+
+
       </div>
 
       <!-- 新增：规格表格（参考图样式） -->
@@ -879,7 +877,7 @@
         </table>
 
         <!-- 表格内容 -->
-        <div v-show="showQuantityDetails" style="margin-top: -1px;">
+        <div v-show="showQuantityDetails" style="margin-top: 0px;">
           <table style="width: 100%; border-collapse: collapse; font-size: 14px; border-radius: 8px;">
             <tbody>
               <tr style="border: 1px solid #e0e0e0;">
