@@ -70,6 +70,7 @@
     }
 
     .product-title {
+      padding-left:28px;
       font-size: 28px;
       /* 字体加大 */
       font-weight: 700;
@@ -612,7 +613,7 @@
 
     .detail-header {
       text-align: center;
-      padding: 20px 0;
+      padding: 4px 0;
       font-size: 16px;
       font-weight: bold;
       color: #333;
@@ -687,8 +688,7 @@
             <div class="product-title">高足主人杯</div>
           </div>
           <!-- 价格区域移到右侧 -->
-          <div class="price-area" style="text-align: right; margin-left: 10px;">
-            <!-- 惊喜价标签 -->
+          <!-- <div class="price-area" style="text-align: right; margin-left: 10px;">
             <div style="margin-bottom: 5px;">
               <van-tag color="#C8EBF2" style="font-size:12px" text-color="#8AC5D9" size="large" round>
                 惊喜价
@@ -698,11 +698,11 @@
               <span class="price-symbol">¥</span>
               <span class="price-value">2,888.00</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- 在右上角添加图标 -->
-        <van-icon name="coupon" size="60px"
-          style="position: absolute;z-index: 1; top: 20%; right: 23%; color: #A6D4E8; opacity: 0.2;" />
+        <van-icon name="sign" size="60px"
+          style="position: absolute;z-index: 1; top: 20%; right: 3%; color: #A6D4E8; opacity: 0.2;" />
       </div>
     </div>
 
@@ -849,7 +849,7 @@
 
                 <div class="cell-card-item">
                   <div class="cell-card-label">混水</div>
-                  <div class="cell-card-value">青花</div>
+                  <div class="cell-card-value">WZH</div>
                 </div>
 
                 <div class="cell-card-item">
@@ -945,7 +945,7 @@
               <!-- 表格内容 -->
               <tbody>
                 <tr>
-                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">名称</td>
+                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">姓名</td>
                   <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 15px;">ZH</td>
                 </tr>
 
@@ -975,7 +975,7 @@
               <!-- 表格内容 -->
               <tbody>
                 <tr>
-                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">名称</td>
+                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">姓名</td>
                   <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">HZM</td>
                 </tr>
 
@@ -1005,7 +1005,7 @@
               <!-- 表格内容 -->
               <tbody>
                 <tr>
-                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">名称</td>
+                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">姓名</td>
                   <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">WZH</td>
                 </tr>
 
@@ -1035,7 +1035,7 @@
               <!-- 表格内容 -->
               <tbody>
                 <tr>
-                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">名称</td>
+                  <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">姓名</td>
                   <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">CYL</td>
                 </tr>
 
@@ -1060,7 +1060,7 @@
 
     <!-- 5. 详情图 (一张一张竖着往下排列展示) -->
     <div class="detail-section">
-      <div class="detail-header">— 详情 —</div>
+      <div class="detail-header"></div>
       <van-image src="./img/detail/1.jpg" width="100%" class="detail-image" />
       <van-image src="./img/detail/2.jpg" width="100%" class="detail-image" />
       <van-image src="./img/detail/3.jpg" width="100%" class="detail-image" />
