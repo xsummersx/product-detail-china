@@ -830,7 +830,7 @@
       <!-- 第二组：泥料、釉、拉坯、画工、混水（保持原有风格） -->
       <div class="param-grid">
         <div class="param-item"
-          style="width: 100%;padding:0;margin:10px 0 20px 0; border-top: 1px solid #e0e0e0;border-bottom: 1px solid #e0e0e0"
+          style="width: 100%;padding:0;margin:10px 0 20px 0; border-top: 1px solid #f0f0f0;border-bottom: 1px solid #f0f0f0"
           @click="showMasterPopup = true">
           <van-cell is-link style="padding:2px;display: flex; align-items: center;">
             <!-- 使用 title 插槽来自定义标题 -->
@@ -876,16 +876,16 @@
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;border-radius: 8px;">
           <!-- 表头 -->
           <thead>
-            <tr style=" border: 1px solid #e0e0e0;">
+            <tr style=" border: 1px solid #f0f0f0;">
               <th colspan="2"
-                style="padding: 10px; text-align: left; font-weight: 500; color: #333; border-bottom: 1px solid #e0e0e0;">
+                style="padding: 10px; text-align: left; font-weight: 500; color: #333; border-bottom: 1px solid #f0f0f0;">
                 <span style="color:#999;font-size:14px;">数量：</span>
                 <span style="color:#333;font-size:14px">200</span>
               </th>
             </tr>
           </thead>
           <tbody v-if="!showQuantityDetails">
-            <tr style=" border: 1px solid #e0e0e0;">
+            <tr style=" border: 1px solid #f0f0f0;">
               <td>
                 <div style="text-align: center; margin: 10px 0;">
                   <button @click="showQuantityDetails = true"
@@ -902,19 +902,19 @@
         <div v-show="showQuantityDetails" style="margin-top: -1px;">
           <table style="width: 100%; border-collapse: collapse; font-size: 14px; border-radius: 8px;">
             <tbody>
-              <tr style="border: 1px solid #e0e0e0;">
+              <tr style="border: 1px solid #f0f0f0;">
                 <td style="width: 30%; padding: 10px; text-align: left; color: #999;">入窑数量</td>
                 <td style="width: 30%; padding: 10px; text-align: left; color: #333;">200</td>
                 <td style="width: 20%; padding: 10px; text-align: left; color: #999;">A级</td>
                 <td style="width: 20%; padding: 10px; text-align: left; color: #333;">130</td>
               </tr>
-              <tr style="border: 1px solid #e0e0e0;">
+              <tr style="border: 1px solid #f0f0f0;">
                 <td style="padding: 10px; text-align: left; color: #999;">成品数量</td>
                 <td style="padding: 10px; text-align: left; color: #333;">167</td>
                 <td style="padding: 10px; text-align: left; color: #999;">B级</td>
                 <td style="padding: 10px; text-align: left; color: #333;">20</td>
               </tr>
-              <tr style="border: 1px solid #e0e0e0;">
+              <tr style="border: 1px solid #f0f0f0;">
                 <td style="padding: 10px; text-align: left; color: #999;">成品率</td>
                 <td style="padding: 10px; text-align: left; color: #333;">83.5%</td>
                 <td style="padding: 10px; text-align: left; color: #999;">C级</td>
