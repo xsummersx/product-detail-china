@@ -200,11 +200,13 @@
       /* 如果希望标签固定宽度，可以取消下面这行的注释 */
       /* min-width: 70px; */
       display: flex;
+      font-size: 14px;
       justify-content: flex-start;
       align-items: center;
     }
 
     .param-value {
+      font-size: 15px;
       color: #333;
       text-align: right;
       /* 确保文字靠右对齐 */
@@ -231,15 +233,16 @@
     }
 
     .param-row-first {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      /* 均分三列 */
+      grid-template-columns: repeat(3, 1fr);
       border-radius: 8px;
       width: 100%;
     }
 
     .param-row-second {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       border-radius: 8px;
       width: 100%;
     }
@@ -248,7 +251,6 @@
     /* 参数项样式 */
     .param-card-item {
       text-align: center;
-      width: 28%;
       padding: 8px;
       border-radius: 4px;
       transition: all 0.2s;
@@ -279,13 +281,13 @@
 
 
     .param-card-label {
-      font-size: 12px;
+      font-size: 14px;
       color: #999;
       margin-bottom: 4px;
     }
 
     .param-card-value {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: #333;
     }
@@ -334,13 +336,13 @@
 
 
     .cell-card-label {
-      font-size: 12px;
+      font-size: 14px;
       color: #999;
       margin-bottom: 4px;
     }
 
     .cell-card-value {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: #333;
     }
@@ -389,7 +391,7 @@
     .brand-title {
       padding-left: 5px;
       color: #2d51b5;
-      font-size:16px;
+      font-size: 16px;
       font-weight: bold;
       flex: 1;
     }
@@ -877,7 +879,8 @@
             <tr style=" border: 1px solid #e0e0e0;">
               <th colspan="2"
                 style="padding: 10px; text-align: left; font-weight: 500; color: #333; border-bottom: 1px solid #e0e0e0;">
-                <span style="color:#999">数量：</span> 200
+                <span style="color:#999;font-size:14px;">数量：</span>
+                <span style="color:#333;font-size:14px">200</span>
               </th>
             </tr>
           </thead>
@@ -902,7 +905,7 @@
               <tr style="border: 1px solid #e0e0e0;">
                 <td style="width: 30%; padding: 10px; text-align: left; color: #999;">入窑数量</td>
                 <td style="width: 30%; padding: 10px; text-align: left; color: #333;">200</td>
-                <td style="width: 30%; padding: 10px; text-align: left; color: #999;">A级</td>
+                <td style="width: 20%; padding: 10px; text-align: left; color: #999;">A级</td>
                 <td style="width: 20%; padding: 10px; text-align: left; color: #333;">130</td>
               </tr>
               <tr style="border: 1px solid #e0e0e0;">
@@ -935,7 +938,7 @@
                 <tr>
                   <th colspan="2"
                     style="background:linear-gradient(to right,#e7fdf0 0%,#e7fdf0 30%,#fff 100%);color:#0fae4a;padding: 10px; text-align: left; font-weight: 500; color: #333;">
-                    <van-icon name="manager-o" size="18px" color="#0fae4a" />&nbsp;&nbsp;拉胚
+                    <van-icon name="manager-o" size="16px" color="#0fae4a" />&nbsp;&nbsp;拉胚
                   </th>
                 </tr>
               </thead>
@@ -943,18 +946,18 @@
               <tbody>
                 <tr>
                   <td style="width:30%;padding: 5px 10px; text-align: left; color: #999; font-size: 14px;">名称</td>
-                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">ZH</td>
+                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 15px;">ZH</td>
                 </tr>
 
                 <tr>
                   <td style="padding: 5px 10px;text-align: left; color: #999; font-size: 14px;">编号</td>
-                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">MASTER-001</td>
+                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 15px;">MASTER-001</td>
                 </tr>
 
                 <tr>
                   <td style="padding: 5px 10px; text-align: left; vertical-align: top; color: #999; font-size: 14px;">简介
                   </td>
-                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 14px;">
+                  <td style="padding: 5px 10px; text-align: left; color: #333; font-size: 15px;">
                     资深拉坯师傅，拥有15年制瓷经验，擅长青花山水题材，手法细腻，坯体匀称。</td>
                 </tr>
               </tbody>
@@ -965,7 +968,7 @@
                 <tr>
                   <th colspan="2"
                     style="background:linear-gradient(to right,#e7fdf0 0%,#e7fdf0 30%,#fff 100%);color:#0fae4a;padding: 10px; text-align: left; font-weight: 500; color: #333;">
-                    <van-icon name="records-o" size="18px" color="#0fae4a" />&nbsp;&nbsp;画工
+                    <van-icon name="records-o" size="16px" color="#0fae4a" />&nbsp;&nbsp;画工
                   </th>
                 </tr>
               </thead>
@@ -995,7 +998,7 @@
                 <tr>
                   <th colspan="2"
                     style="background:linear-gradient(to right,#e7fdf0 0%,#e7fdf0 30%,#fff 100%);color:#0fae4a;padding: 10px; text-align: left; font-weight: 500; color: #333;">
-                    <van-icon name="bag-o" size="18px" color="#0fae4a" />&nbsp;&nbsp;混水
+                    <van-icon name="bag-o" size="16px" color="#0fae4a" />&nbsp;&nbsp;混水
                   </th>
                 </tr>
               </thead>
@@ -1025,7 +1028,7 @@
                 <tr>
                   <th colspan="2"
                     style="background:linear-gradient(to right,#e7fdf0 0%,#e7fdf0 30%,#fff 100%);color:#0fae4a;padding: 10px; text-align: left; font-weight: 500; color: #333;">
-                    <van-icon name="fire-o" size="18px" color="#0fae4a" />&nbsp;&nbsp;烧窑
+                    <van-icon name="fire-o" size="16px" color="#0fae4a" />&nbsp;&nbsp;烧窑
                   </th>
                 </tr>
               </thead>
